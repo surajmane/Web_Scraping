@@ -8,13 +8,16 @@ returns: The frequency of the words in the webpage resulted from the scraping.
 """
 
 from import_file import *
-
+from api import *
 def webscraper():
     url = sys.argv[1]
     print(url)
     with urllib.request.urlopen(url) as response: html = response.read()
     soup = BeautifulSoup(html, features='html.parser')
     text = soup.get_text()
+    #to parse the data we have differenct options
+    #getting text only
+    #print(text)
     #to get all the urls in the page
     urls = soup.find_all('a')
     #print(urls)
@@ -32,18 +35,30 @@ def webscraper():
     common_words = ["Python", "Module", "Documentation", "license"]
     filtered_words = [wds for wds in filtered_words if wds not in common_words]
     return filtered_words
+
+#def main():
+    #main function to call the webscraper and plotitout method
     
     
 def plotitout(filtered_words):
     fd = FreqDist(filtered_words)
-    layout = dict(title="Frequency distribution of the words", xaxis=dict(title="x-axis"), yaxis=dict(title="y-axis"))
-    # fig = ex.bar(fd)
-    # fig.show()
+    #an inline frequency distribution
     fd.plot(20)
     
-    #df_filtered_words = [df_filtered_words]
- 
-    # fig.show()
+    #to make an interactive plot
+    keys = []
+    values = []
+    for k, v in fd.items():
+        if v != 1:
+            keys.append(k)
+            values.append(v)
+    # print(keys, values)
+    # print(fd)
+    
+    tls.set_credentials_file(username, api_keys)
+    data = [go.Bar(x=keys, y = values)]
+    layout = dict(title="Frequency distribution of the words", xaxis=dict(title="x-axis"), yaxis=dict(title="y-axis"))
+    py.iplot(data, filename = 'Frequency distribution', layout = layout)
     
 if __name__ == "__main__":
     
