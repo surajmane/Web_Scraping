@@ -15,9 +15,6 @@ def webscraper():
     with urllib.request.urlopen(url) as response: html = response.read()
     soup = BeautifulSoup(html, features='html.parser')
     text = soup.get_text()
-    #to parse the data we have differenct options
-    #getting text only
-    #print(text)
     #to get all the urls in the page
     urls = soup.find_all('a')
     #print(urls)
@@ -35,9 +32,6 @@ def webscraper():
     common_words = ["Python", "Module", "Documentation", "license"]
     filtered_words = [wds for wds in filtered_words if wds not in common_words]
     return filtered_words
-
-#def main():
-    #main function to call the webscraper and plotitout method
     
     
 def plotitout(filtered_words):
